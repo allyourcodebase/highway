@@ -1,6 +1,12 @@
 .{
     .name = .highway,
     .version = "0.0.1",
+    .dependencies = .{
+        .highway = .{
+            .url = "https://github.com/google/highway/archive/refs/tags/1.3.0.tar.gz",
+            .hash = "N-V-__8AAKYPjAALEjmG0ER8e44ANYhP5HmiJW6-iRSgDdXS",
+        },
+    },
     .minimum_zig_version = "0.15.2",
     .paths = .{""},
     .fingerprint = 0xdbcf1a74078cacfc,
