@@ -11,11 +11,11 @@ pub fn build(b: *std.Build) !void {
         .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
+            .link_libcpp = true,
         }),
     });
-    lib.linkLibCpp();
-    lib.addIncludePath(upstream.path(""));
-    lib.addCSourceFiles(.{
+    lib.root_module.addIncludePath(upstream.path(""));
+    lib.root_module.addCSourceFiles(.{
         .root = upstream.path("hwy"),
         .files = &.{
             "abort.cc",
@@ -50,15 +50,15 @@ pub fn build(b: *std.Build) !void {
             .optimize = optimize,
         }),
     });
-    skeleton_test.linkLibrary(lib);
+    skeleton_test.root_module.linkLibrary(lib);
     // We need these paths for `HWY_TARGET_INCLUDE`.
-    skeleton_test.addIncludePath(upstream.path(""));
-    skeleton_test.addIncludePath(upstream.path("hwy"));
+    skeleton_test.root_module.addIncludePath(upstream.path(""));
+    skeleton_test.root_module.addIncludePath(upstream.path("hwy"));
     const skeleton_test_flags = &.{
         "-DHWY_IS_TEST=1",
         "-DHWY_TEST_STANDALONE=1",
     };
-    skeleton_test.addCSourceFiles(.{
+    skeleton_test.root_module.addCSourceFiles(.{
         .root = upstream.path("hwy"),
         .files = &.{
             "examples/skeleton.cc",
